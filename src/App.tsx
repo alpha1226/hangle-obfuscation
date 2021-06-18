@@ -32,13 +32,20 @@ class App extends Component<any,any> {
     //if(47 <= ascii && ascii <= 58) return hangleChar
     if(ascii < startTextNumber || ascii > endTextNumber) return hangleChar
     
+    let typeRandom = Math.floor((Math.random()*100)%2)
+    let obfuscationHangul = ''
+    if(typeRandom===1){
+      let all_area = ascii % startTextNumber
+      let text_area = Math.floor(all_area / 28)
+      let common_text_ascii = startTextNumber + (text_area * 28)
+      let random = Math.floor((Math.random()*100)%27+1)
+  
+      obfuscationHangul = String.fromCharCode(common_text_ascii+random)
+    } else if(typeRandom===0){
+      obfuscationHangul = hangleChar;
+    }
 
-    let all_area = ascii % startTextNumber
-    let text_area = Math.floor(all_area / 28)
-    let common_text_ascii = startTextNumber + (text_area * 28)
-    let random = Math.floor((Math.random()*100)%27+1)
-
-    let obfuscationHangul = String.fromCharCode(common_text_ascii+random)
+    
     
     return obfuscationHangul
   }
