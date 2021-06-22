@@ -25,29 +25,46 @@ class App extends Component<any,any> {
     this.setState({obfuscation: e.target.value})
   }
 
-  getObfuscatedhangul(hangleChar: string){
+  getObfuscatedHangul(hangleChar: string){
     let ascii = hangleChar.charAt(0).charCodeAt(0)
     if(ascii===32) return ' '
     //if(12593 <= ascii && ascii <= 12622) return hangleChar
     //if(47 <= ascii && ascii <= 58) return hangleChar
     if(ascii < startTextNumber || ascii > endTextNumber) return hangleChar
     
-    let typeRandom = Math.floor((Math.random()*100)%2)
+    let typeRandom = this.getRandom(ascii)
+
     let obfuscationHangul = ''
     if(typeRandom===1){
+      // Bottom Obfuscated
       let all_area = ascii % startTextNumber
       let text_area = Math.floor(all_area / 28)
       let common_text_ascii = startTextNumber + (text_area * 28)
       let random = Math.floor((Math.random()*100)%27+1)
   
       obfuscationHangul = String.fromCharCode(common_text_ascii+random)
-    } else if(typeRandom===0){
+    } else if(typeRandom === 2) {
+      let _added_num = 588
+     
+      obfuscationHangul = String.fromCharCode(ascii + _added_num)
+    } else if(typeRandom === 0) {
       obfuscationHangul = hangleChar;
     }
-
-    
-    
     return obfuscationHangul
+  }
+
+  getRandom(ascii: number):number {
+    let _random_floor = 2    
+
+    if(44032 <= ascii && ascii <= 44619) _random_floor = 3 // 가
+    else if (45796 <= ascii && ascii <= 46383) _random_floor = 3 // 다
+    else if (48148 <= ascii && ascii <= 48735) _random_floor = 3 // 바
+    else if (49324 <= ascii && ascii <= 49911) _random_floor = 3 //사
+    else if (51088 <= ascii && ascii <= 51675) _random_floor = 3 //자
+
+    let typeRandom = Math.floor((Math.random()*100)%_random_floor)
+
+    return typeRandom
   }
 
 
@@ -68,7 +85,7 @@ class App extends Component<any,any> {
   setObfuscation() {
     let obfuscationHangul = ''
     for(let i=0;i<this.state.hangle.length;i++){
-      obfuscationHangul = obfuscationHangul + (this.getObfuscatedhangul(this.state.hangle[i]))
+      obfuscationHangul = obfuscationHangul + (this.getObfuscatedHangul(this.state.hangle[i]))
     }
     this.setState({obfuscation: obfuscationHangul})
   }
@@ -86,7 +103,6 @@ class App extends Component<any,any> {
         <textarea value={this.state.obfuscation} onChange={this.obfuscationHandler}>
 
         </textarea>
-
       </header>
     </div>
     )
