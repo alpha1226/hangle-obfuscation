@@ -1,6 +1,6 @@
-import logo from './logo.svg';
 import './App.css';
 import { Component } from 'react';
+import _ from 'lodash'
 
 const startTextNumber = 44032
 const endTextNumber = 55203
@@ -15,6 +15,7 @@ class App extends Component<any,any> {
     this.hangleHadler = this.hangleHadler.bind(this)
     this.obfuscationHandler = this.obfuscationHandler.bind(this)
     this.setObfuscation = this.setObfuscation.bind(this)
+    console.log(this.getHangle())
   }
 
   hangleHadler(e: any){
@@ -41,12 +42,10 @@ class App extends Component<any,any> {
       let text_area = Math.floor(all_area / 28)
       let common_text_ascii = startTextNumber + (text_area * 28)
       let random = Math.floor((Math.random()*100)%27+1)
-  
       obfuscationHangul = String.fromCharCode(common_text_ascii+random)
     } else if(typeRandom === 2) {
-      let _added_num = 588
-     
-      obfuscationHangul = String.fromCharCode(ascii + _added_num)
+      // 쌍자음 난독화
+      obfuscationHangul = String.fromCharCode(ascii + 588)
     } else if(typeRandom === 0) {
       obfuscationHangul = hangleChar;
     }
@@ -54,15 +53,15 @@ class App extends Component<any,any> {
   }
 
   getRandom(ascii: number):number {
-    let _random_floor = 2    
+    let _random_floor = [1,1]
 
-    if(44032 <= ascii && ascii <= 44619) _random_floor = 3 // 가
-    else if (45796 <= ascii && ascii <= 46383) _random_floor = 3 // 다
-    else if (48148 <= ascii && ascii <= 48735) _random_floor = 3 // 바
-    else if (49324 <= ascii && ascii <= 49911) _random_floor = 3 //사
-    else if (51088 <= ascii && ascii <= 51675) _random_floor = 3 //자
+    if(_.inRange(ascii, 44032, 44619)) _random_floor[2] = 3
+    else if (_.inRange(ascii, 45796, 46383)) _random_floor[2] = 3
+    else if (_.inRange(ascii, 48148, 48735)) _random_floor[2] = 3
+    else if (_.inRange(ascii, 49324, 49911)) _random_floor[2] = 3
+    else if (_.inRange(ascii, 51088, 51675)) _random_floor[2] = 3
 
-    let typeRandom = Math.floor((Math.random()*100)%_random_floor)
+    let typeRandom = Math.floor((Math.random()*100)%3)
 
     return typeRandom
   }
