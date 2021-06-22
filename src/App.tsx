@@ -15,7 +15,7 @@ class App extends Component<any,any> {
     this.hangleHadler = this.hangleHadler.bind(this)
     this.obfuscationHandler = this.obfuscationHandler.bind(this)
     this.setObfuscation = this.setObfuscation.bind(this)
-    console.log(this.getHangle())
+    this.getHangle()
   }
 
   hangleHadler(e: any){
@@ -46,6 +46,8 @@ class App extends Component<any,any> {
     } else if(typeRandom === 2) {
       // 쌍자음 난독화
       obfuscationHangul = String.fromCharCode(ascii + 588)
+    } else if(typeRandom === 3){
+
     } else if(typeRandom === 0) {
       obfuscationHangul = hangleChar;
     }
@@ -53,15 +55,21 @@ class App extends Component<any,any> {
   }
 
   getRandom(ascii: number):number {
-    let _random_floor = [1,1]
+    let _random_floor = [true,true,false,false]
 
-    if(_.inRange(ascii, 44032, 44619)) _random_floor[2] = 3
-    else if (_.inRange(ascii, 45796, 46383)) _random_floor[2] = 3
-    else if (_.inRange(ascii, 48148, 48735)) _random_floor[2] = 3
-    else if (_.inRange(ascii, 49324, 49911)) _random_floor[2] = 3
-    else if (_.inRange(ascii, 51088, 51675)) _random_floor[2] = 3
+    if(_.inRange(ascii, 44032, 44619)) _random_floor[2] = true
+    else if (_.inRange(ascii, 45796, 46383)) _random_floor[2] = true
+    else if (_.inRange(ascii, 48148, 48735)) _random_floor[2] = true
+    else if (_.inRange(ascii, 49324, 49911)) _random_floor[2] = true
+    else if (_.inRange(ascii, 51088, 51675)) _random_floor[2] = true
 
-    let typeRandom = Math.floor((Math.random()*100)%3)
+    let _maxRandom = _random_floor.filter(Element => true===Element).length
+
+    console.log(_maxRandom)
+
+    let typeRandom = Math.floor((Math.random()*100)%_maxRandom)
+
+    console.log(typeRandom)
 
     return typeRandom
   }
@@ -102,6 +110,11 @@ class App extends Component<any,any> {
         <textarea value={this.state.obfuscation} onChange={this.obfuscationHandler}>
 
         </textarea>
+        {
+          this.getHangle().map(r => {
+            return <div>{r}</div>
+          })
+        }
       </header>
     </div>
     )
