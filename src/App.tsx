@@ -47,7 +47,16 @@ class App extends Component<any,any> {
       // 쌍자음 난독화
       obfuscationHangul = String.fromCharCode(ascii + 588)
     } else if(typeRandom === 3){
-
+      // 모음 난독화
+      /*ㅏ1  ㅑ3
+        ㅐ2  ㅒ4
+        ㅓ5  ㅕ7
+        ㅔ6  ㅖ8
+        ㅗ9  ㅛ13
+        ㅜ14 ㅠ18
+        ㅙ11 ㅞ16 ㅚ12
+        ㅡ19 ㅢ20 ㅣ21
+        ㅘ10  ㅝ15 ㅟ17  */
     } else if(typeRandom === 0) {
       obfuscationHangul = hangleChar;
     }
