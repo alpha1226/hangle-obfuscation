@@ -34,6 +34,7 @@ class App extends Component<any,any> {
     if(ascii < startTextNumber || ascii > endTextNumber) return hangleChar
     
     let typeRandom = this.getRandom(ascii)
+    if(typeRandom ===1) typeRandom = 3
 
     let obfuscationHangul = ''
     if(typeRandom===1){
@@ -47,16 +48,46 @@ class App extends Component<any,any> {
       // 쌍자음 난독화
       obfuscationHangul = String.fromCharCode(ascii + 588)
     } else if(typeRandom === 3){
+      console.log('on type3')
       // 모음 난독화
-      /*ㅏ1  ㅑ3
-        ㅐ2  ㅒ4
-        ㅓ5  ㅕ7
-        ㅔ6  ㅖ8
-        ㅗ9  ㅛ13
-        ㅜ14 ㅠ18
-        ㅙ11 ㅞ16 ㅚ12
-        ㅡ19 ㅢ20 ㅣ21
-        ㅘ10  ㅝ15 ㅟ17  */
+      /*ㅏ0  ㅑ2   
+        ㅐ1  ㅒ3   
+        ㅓ4  ㅕ6   
+        ㅔ5  ㅖ7   
+        ㅗ8  ㅛ12  
+        ㅜ13 ㅠ17  
+        ㅙ10 ㅞ15 ㅚ11 
+        ㅡ18 ㅢ19 ㅣ20
+        ㅘ9  ㅝ14 ㅟ16  */
+        let _index = (ascii - 44032)%588/28
+        console.log(_index)
+        let _multifly_num = 0
+        switch(_index) {
+          case 0: _multifly_num = 2; break;
+          case 1: _multifly_num = 2; break;
+          case 2: _multifly_num = -2; break;
+          case 3: _multifly_num = -2; break;
+          case 4: _multifly_num = 2; break;
+          case 5: _multifly_num = 2; break;
+          case 6: _multifly_num = -2; break;
+          case 7: _multifly_num = -2; break;
+          case 8: _multifly_num = 4; break;
+          case 9: _multifly_num = 5; break;
+          case 10: _multifly_num = 5; break;
+          case 11: _multifly_num = -1; break;
+          case 12: _multifly_num = -4; break;
+          case 13: _multifly_num = 4; break;
+          case 14: _multifly_num = 2; break;
+          case 15: _multifly_num = -4; break;
+          case 16: _multifly_num = -7; break;
+          case 17: _multifly_num = -4; break;
+          case 18: _multifly_num = 1; break;
+          case 19: _multifly_num = 1; break;
+          case 20: _multifly_num = -2; break;
+        }
+        ascii= ascii+(28*_multifly_num)
+        console.log(_multifly_num)
+        obfuscationHangul = String.fromCharCode(ascii)
     } else if(typeRandom === 0) {
       obfuscationHangul = hangleChar;
     }
@@ -72,11 +103,14 @@ class App extends Component<any,any> {
     else if (_.inRange(ascii, 49324, 49911)) _random_floor[2] = true
     else if (_.inRange(ascii, 51088, 51675)) _random_floor[2] = true
 
+    _random_floor[3] = true
+
     let _maxRandom = _random_floor.filter(Element => true===Element).length
 
     console.log(_maxRandom)
 
     let typeRandom = Math.floor((Math.random()*100)%_maxRandom)
+    if(!_random_floor[2] && typeRandom === 2) typeRandom = 3
 
     console.log(typeRandom)
 
