@@ -95,7 +95,7 @@ class App extends Component<any,any> {
   }
 
   getRandom(ascii: number):number {
-    let _random_floor = [true,true,false,false]
+    let _random_floor = [true,true,false,true]
 
     if(_.inRange(ascii, 44032, 44619)) _random_floor[2] = true
     else if (_.inRange(ascii, 45796, 46383)) _random_floor[2] = true
@@ -103,16 +103,11 @@ class App extends Component<any,any> {
     else if (_.inRange(ascii, 49324, 49911)) _random_floor[2] = true
     else if (_.inRange(ascii, 51088, 51675)) _random_floor[2] = true
 
-    _random_floor[3] = true
-
     let _maxRandom = _random_floor.filter(Element => true===Element).length
 
-    console.log(_maxRandom)
-
     let typeRandom = Math.floor((Math.random()*100)%_maxRandom)
-    if(!_random_floor[2] && typeRandom === 2) typeRandom = 3
 
-    console.log(typeRandom)
+    if(!_random_floor[typeRandom]) typeRandom = this.getRandom(ascii)
 
     return typeRandom
   }
@@ -153,11 +148,11 @@ class App extends Component<any,any> {
         <textarea value={this.state.obfuscation} onChange={this.obfuscationHandler}>
 
         </textarea>
-        {
+        {/*
           this.getHangle().map(r => {
             return <div>{r}</div>
           })
-        }
+        */}
       </header>
     </div>
     )
